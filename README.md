@@ -10,4 +10,4 @@ https://github.com/CodeYourFuture/syllabus/tree/master/js-core-3/tv-show-dom-pro
 
 Just a simple solution for TV Show Project
 
-https://github.com/jimijos/cyf-tv-show-solution-upto-level-300-
+LEVEL-300 and Live-Site-Level-300(https://github.com/jimijos/cyf-tv-show-solution-upto-level-300-)
