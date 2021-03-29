@@ -58,6 +58,7 @@ select {
 
 .card {
   width: 270px;
+  height: 395px;
   padding: 2%;
   position: relative;
   margin: 1rem;
