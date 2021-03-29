@@ -9,6 +9,7 @@ themeSelector.addEventListener("click", () => {
   nav.classList.toggle("dark");
   rootElem.classList.toggle("dark");
   themeSelector.classList.toggle("dark");
+  localStorage.removeItem("theme");
 });
 
 let p = document.createElement("p");
@@ -35,6 +36,11 @@ function setup() {
     });
     makePageForEpisodes(filteredList);
   });
+  if (localStorage.getItem("theme") === "dark") {
+    nav.classList.toggle("dark");
+    rootElem.classList.toggle("dark");
+    themeSelector.classList.toggle("dark");
+  }
 }
 
 function makeEpisodeCard(item) {
@@ -109,6 +115,11 @@ function makePageForEpisodes(episodeList) {
         button.classList.add("btn");
         p.innerText = `Got 1 episode`;
         button.addEventListener("click", () => {
+          if (themeSelector.classList) {
+            themeSelector.classList[1] === "dark"
+              ? localStorage.setItem("theme", themeSelector.classList[1])
+              : null;
+          }
           location.reload();
         });
         container.append(card);
