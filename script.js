@@ -35,11 +35,6 @@ function setup() {
     });
     makePageForEpisodes(filteredList);
   });
-  if (localStorage.getItem("theme") === "dark") {
-    nav.classList.toggle("dark");
-    rootElem.classList.toggle("dark");
-    themeSelector.classList.toggle("dark");
-  }
 }
 
 function makeEpisodeCard(item) {
