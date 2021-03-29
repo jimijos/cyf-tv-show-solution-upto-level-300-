@@ -10,4 +10,4 @@ https://github.com/CodeYourFuture/syllabus/tree/master/js-core-3/tv-show-dom-pro
 
 The solution to this project will be given to you after you have completed it. You will be able to find the solition here
 
-https://github.com/CodeYourFuture/tv-show-dom-project-solution
+https://github.com/jimijos/cyf-tv-show-solution-upto-level-300-
