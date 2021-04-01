@@ -29,10 +29,34 @@ body {
   padding: 1% 3%;
   box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
 }
+.card .showTitle-pointer {
+  cursor: pointer;
+}
 @media (max-width: 400px) {
   .nav {
     flex-direction: column;
     padding-top: 5%;
+    position: fixed;
+  }
+  .container {
+    padding: 1.1rem;
+    margin-top: 10rem;
+  }
+  .card,
+  .subcard {
+    font-size: 0.8rem;
+    width: 100%;
+  }
+  .subCard {
+    max-width: 144px;
+  }
+  .card p {
+    padding: 2%;
+  }
+}
+@media (max-width: 560px) {
+  .subCard {
+    max-width: 144px;
   }
 }
 #input {
@@ -58,10 +82,23 @@ select {
 }
 
 .card {
-  width: 270px;
-  height: 395px;
+  width: 600px;
+  min-width: 400px;
   padding: 2%;
   position: relative;
+  margin: 1rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+.subCard {
+  width: 50%;
+  min-width: 140px;
+  padding: 2%;
+  position: absolute;
+  overflow-wrap: normal;
+  top: 100px;
+  right: 0;
   margin: 1rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
@@ -73,6 +110,13 @@ select {
   margin: 0 auto;
   flex-basis: 100%;
   height: 100%;
+}
+.showCard div {
+  padding: 0 5rem 1rem 1rem;
+}
+.showContainer {
+  display: flex;
+  width: 100%;
 }
 .dark .showCard {
   background: linear-gradient(#333333, #555);
@@ -127,6 +171,36 @@ select {
     margin: 0.2em auto;
   }
 }
+
+.moreButton {
+  position: relative;
+  margin-top: 5rem;
+  width: 250px;
+  background-image: linear-gradient(
+    to right,
+    #02aab0 0%,
+    #00cdac 51%,
+    #02aab0 100%
+  );
+}
+.moreButton {
+  padding: 6px 10px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 10px #eee;
+  border-radius: 10px;
+  display: block;
+}
+
+.moreButton:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
 .theme {
   padding: 0 1%;
   height: 40px;

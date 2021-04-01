@@ -37,8 +37,11 @@ async function setup() {
   title.addEventListener("click", () => {
     container.innerText = "";
     titleMount.innerText = "";
+
     selectEpisode.selectedIndex = 0;
     selectShows.selectedIndex = 0;
+    selectEpisode.innerText = "";
+    createAndAppendElement("option", "Select Episode", selectEpisode);
     input.value = "";
     makePageForShows(sortedShowsList);
   });
@@ -56,7 +59,19 @@ async function makePageForShows(showList) {
   });
 
   for (let show of showList) {
-    let card = makeEpisodeCard(show, selectShows);
+    let showContainer = createAndAppendElement("section", "", "");
+    showContainer.classList.add("showContainer", "card");
+    let card = makeCard(show, selectShows);
+    let showTitle = card.querySelector(".card h2");
+    showTitle.classList.add("showTitle-pointer");
+    showTitle.addEventListener("click", async () => {
+      container.innerText = "";
+      episodes = await getAllEpisodes(show.id);
+      makePageForEpisodes(episodes, show);
+    });
+    let subCard = makesubCard(show);
+    subCard.classList.add("subCard");
+
     let episodes;
 
     selectShows.addEventListener("change", async ({ target: { value } }) => {
@@ -66,7 +81,7 @@ async function makePageForShows(showList) {
         if (episodes.length) {
           container.innerText = "";
           makePageForEpisodes(episodes, show);
-          let showCard = makeEpisodeCard(show);
+          showCard = makeCard(show);
           input.removeEventListener("input", (e) =>
             inputSearch(e, showList, "show")
           );
@@ -77,31 +92,93 @@ async function makePageForShows(showList) {
         container.append(card);
       }
     });
+    showContainer.append(card, subCard);
+    card.append(subCard);
     container.append(card);
+    scroll(0, 0);
   }
 }
 
+function makesubCard(item) {
+  let subCard = createAndAppendElement("div", "", "");
+  createAndAppendElement("p", `<p>Rated: ${item.rating.average}</p>`, subCard);
+  createAndAppendElement("p", `<p>Genres: ${item.genres}</p>`, subCard);
+  createAndAppendElement("p", `<p>Status: ${item.status}</p>`, subCard);
+  createAndAppendElement("p", `<p>RunTime: ${item.runtime}</p>`, subCard);
+  return subCard;
+}
+
 function inputSearch({ target: { value } }, showList, type) {
-  let filteredList = showList.filter((episode) => {
+  let filteredList = showList.filter((listItem) => {
     if (
-      episode.name.toLocaleLowerCase().includes(value.toLowerCase()) ||
-      episode.summary.toLocaleLowerCase().includes(value.toLowerCase())
+      listItem.name.toLocaleLowerCase().includes(value.toLowerCase()) ||
+      listItem.summary
+        .toLocaleLowerCase()
+        .includes(
+          value.toLowerCase() ||
+            listItem?.genres
+              .join(" ")
+              .toLocaleLowerCase()
+              .includes(value.toLowerCase())
+        )
     ) {
-      return episode;
+      return listItem;
     }
   });
-  console.log(showList);
   makePageForEpisodes(filteredList, "", type, showList);
 }
 
-function makeEpisodeCard(item, select = null) {
+function makeCard(item, select = null) {
+  let summary;
   let card = createAndAppendElement("section", "", "", "card");
-  createAndAppendElement("h2", item.name, card);
+  let showTitle = createAndAppendElement("h2", item.name, card);
+  if (item.genres) {
+    showTitle.addEventListener("click", async (e) => {
+      episodes = await getAllEpisodes(item.id);
+      selectShows.selectedIndex = selectShows.innerText
+        .split("\n")
+        .findIndex(
+          (show) => show.toLocaleLowerCase() === item.name.toLocaleLowerCase()
+        );
+      createAndAppendElement("option", item.name, selectShows);
+      container.innerText = "";
+      makePageForEpisodes(episodes, item);
+      scroll(0, 0);
+      input.addEventListener("input", (e) =>
+        inputSearch(e, episodes, "episode")
+      );
+    });
+  }
+
   createAndAppendElement("img", item.image?.medium, card);
   let paddedContent =
     item.season && item.number ? namePadding(item.season, item.number) : "";
   createAndAppendElement("p", paddedContent, card, "season-data");
-  createAndAppendElement("div", truncate(item.summary), card);
+  if (item.summary.length > 250) {
+    summary = item.summary;
+    createAndAppendElement("div", truncate(item.summary), card);
+    let moreButton = createAndAppendElement("a", "click for more", card);
+    moreButton.classList.add("btn", "moreButton");
+    let truncatedSummary;
+    let isMore = false;
+    moreButton.addEventListener("click", () => {
+      let cardSummary = card.querySelector("div");
+      isMore = !isMore;
+
+      if (cardSummary?.innerText?.slice(-3) === "...") {
+        truncatedSummary = cardSummary.innerText;
+      }
+      if (isMore) {
+        cardSummary.innerHTML = summary;
+        moreButton.innerText = "Show Less";
+      } else {
+        cardSummary.innerHTML = truncatedSummary;
+        moreButton.innerText = "click for more";
+      }
+    });
+  } else {
+    createAndAppendElement("div", item.summary, card);
+  }
 
   card.setAttribute("id", `${item.id}`);
   if (select) {
@@ -127,7 +204,7 @@ function createAndAppendElement(
     if (tag === "img") {
       element.src = content || "";
       element.alt = "image";
-    } else if (content[0] === "<") {
+    } else if (content?.[0] === "<") {
       element.innerHTML = content;
     } else {
       element.innerText = content;
@@ -152,7 +229,7 @@ function makePageForEpisodes(episodeList, card = null, type, showList) {
   }${episodeList.length > 1 ? "s" : ""}`;
   if (card) {
     titleMount.innerText = "";
-    showCard = makeEpisodeCard(card);
+    showCard = makeCard(card);
     showCard.classList.add("showCard");
     titleMount.append(showCard);
   }
@@ -164,7 +241,7 @@ function makePageForEpisodes(episodeList, card = null, type, showList) {
 
   selectEpisode.selectedIndex = 0;
   for (let episode of episodeList) {
-    let card = makeEpisodeCard(episode, selectEpisode);
+    let card = makeCard(episode, selectEpisode);
 
     selectEpisode.addEventListener("change", ({ target: { value } }) => {
       if (episode.id === parseInt(value)) {
@@ -181,6 +258,7 @@ function makePageForEpisodes(episodeList, card = null, type, showList) {
       }
     });
     container.append(card);
+    scroll(0, 0);
   }
 }
 
@@ -193,7 +271,7 @@ function namePadding(seasonNum, episodeNum) {
 
 //truncate text
 function truncate(str) {
-  return str.length > 100 ? `${str.slice(0, 100)}...` : str;
+  return str.length > 300 ? `${str.slice(0, 300)}...` : str;
 }
 
 //comparison function to sort showlist alphabetically
@@ -206,7 +284,7 @@ function compare(a, b) {
   }
   return 0;
 }
-
+//darktheme class applied
 function darkThemeSelector() {
   nav.classList.toggle("dark");
   rootElem.classList.toggle("dark");
