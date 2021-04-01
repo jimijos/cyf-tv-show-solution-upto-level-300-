@@ -32,6 +32,20 @@ body {
 .card .showTitle-pointer {
   cursor: pointer;
 }
+
+.subCard {
+  width: 50%;
+  /* min-width: 140px; */
+  padding: 2%;
+  position: absolute;
+  overflow-wrap: normal;
+  top: 100px;
+  right: 0;
+  margin: 1rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
 @media (max-width: 400px) {
   .nav {
     flex-direction: column;
@@ -42,21 +56,32 @@ body {
     padding: 1.1rem;
     margin-top: 10rem;
   }
-  .card,
-  .subcard {
+  .card {
     font-size: 0.8rem;
-    width: 100%;
+    padding: 1rem;
+    max-width: 365px;
   }
   .subCard {
-    max-width: 144px;
+    font-size: 0.8rem;
+    min-width: 100px;
+    max-width: 120px;
+    right: 7%;
   }
-  .card p {
-    padding: 2%;
+  .card div {
+    padding: 4%;
   }
 }
 @media (max-width: 560px) {
-  .subCard {
-    max-width: 144px;
+  .btn {
+    display: block;
+    margin: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .btn {
+    display: block;
+    margin: 0;
   }
 }
 #input {
@@ -91,19 +116,7 @@ select {
   transition: 0.3s;
   border-radius: 5px;
 }
-.subCard {
-  width: 50%;
-  min-width: 140px;
-  padding: 2%;
-  position: absolute;
-  overflow-wrap: normal;
-  top: 100px;
-  right: 0;
-  margin: 1rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  border-radius: 5px;
-}
+
 .showCard {
   background: linear-gradient(#777, #fff);
   width: 100%;
@@ -164,12 +177,6 @@ select {
 .btn:hover {
   border-color: rgba(255, 255, 255, 1);
   cursor: pointer;
-}
-@media all and (max-width: 30em) {
-  .btn {
-    display: block;
-    margin: 0.2em auto;
-  }
 }
 
 .moreButton {
