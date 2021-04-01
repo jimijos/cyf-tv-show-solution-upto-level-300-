@@ -10,18 +10,25 @@ const input = document.querySelector("input");
 const titleMount = document.querySelector(".titleMount");
 let p = document.createElement("p");
 nav.append(p);
+let theme;
 
 //theme selection
 themeSelector.addEventListener("click", () => {
-  nav.classList.toggle("dark");
-  rootElem.classList.toggle("dark");
-  themeSelector.classList.toggle("dark");
+  theme === ""
+    ? localStorage.setItem("theme", "dark")
+    : localStorage.setItem("theme", "");
+  darkThemeSelector();
 });
 
 //run setup
 window.onload = setup;
 
 async function setup() {
+  //setup selected theme
+  theme = localStorage.getItem("theme");
+  if (theme === "dark") {
+    darkThemeSelector();
+  }
   //load show on setup
   const allShows = await getShows();
   const sortedShowsList = [...allShows].sort(compare);
@@ -198,4 +205,10 @@ function compare(a, b) {
     return 1;
   }
   return 0;
+}
+
+function darkThemeSelector() {
+  nav.classList.toggle("dark");
+  rootElem.classList.toggle("dark");
+  themeSelector.classList.toggle("dark");
 }
