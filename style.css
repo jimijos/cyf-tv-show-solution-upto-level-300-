@@ -22,6 +22,7 @@ body {
   flex-wrap: wrap;
   width: 95vw;
   position: fixed;
+  top: 0;
   z-index: 1;
   background-color: #fff;
   justify-content: space-between;
@@ -66,7 +67,19 @@ select {
   transition: 0.3s;
   border-radius: 5px;
 }
-
+.showCard {
+  background: linear-gradient(#777, #fff);
+  width: 100%;
+  margin: 0 auto;
+  flex-basis: 100%;
+  height: 100%;
+}
+.dark .showCard {
+  background: linear-gradient(#333333, #555);
+}
+#title {
+  cursor: pointer;
+}
 .card p,
 .card h2,
 .card img {
@@ -74,7 +87,7 @@ select {
 }
 .selected-episode {
   width: 400px;
-  height: 500px;
+  min-height: 70vh;
   margin-top: 3rem;
   font-size: 1.2rem;
   text-align: center;

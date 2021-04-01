@@ -11,14 +11,18 @@
   <body>
     <div id="root">
       <nav class="nav">
-        <h1>TV-show project</h1>
-        <input type='search' id='input' placeholder='Search'>
+        <h1 id='title'>TV-show project</h1>
+        
+        <select name="shows" id="shows">
+          <option value="none">Select Show</option>
+        </select>
         <select name="episodes" id="episodes">
           <option value="none">Select Episode</option>
         </select>
+        <input type='search' id='input' placeholder='Search'>
         <button class='theme'>Dark Mode</button>
       </nav>
-      
+      <div class="titleMount"></div>
       <div class="container">
 
       </div>
